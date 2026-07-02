@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Need something else — Teaching Lab Operations — Staff Hub</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=block" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+                   'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #fff;
+      color: #1F2937;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; }
+
+    :root {
+      --uom-navy:        #000F46;
+      --uom-navy-hover:  #032A58;
+      --action-blue:     #1D4ED8;
+      --action-blue-bg:  #EFF6FF;
+      --fg-strong:   #111827;
+      --fg:          #1F2937;
+      --fg-muted:    #6B7280;
+      --fg-faint:    #9CA3AF;
+      --bg:          #ffffff;
+      --bg-muted:    #F9FAFB;
+      --bg-soft:     #F3F4F6;
+      --border:        #E5E7EB;
+      --border-strong: #9CA3AF;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --container-max: 1280px;
+    }
+
+    .container { max-width: var(--container-max); margin: 0 auto; padding: 0 24px; }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+      line-height: 1; vertical-align: middle; user-select: none;
+    }
+
+    /* HEADER */
+    .sh-header { background: #fff; position: sticky; top: 0; z-index: 100; }
+    .sh-header-brand { max-width: var(--container-max); margin: 0 auto; padding: 10px 24px; display: flex; align-items: center; gap: 16px; }
+    .sh-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
+    .sh-brand-logo { height: 44px; width: auto; }
+    .sh-wordmark { font-size: 15px; font-weight: 600; color: var(--fg-strong); text-decoration: underline; text-underline-offset: 3px; }
+    .sh-search { flex: 1; max-width: 360px; position: relative; margin: 0 auto; }
+    .sh-search input { width: 100%; height: 36px; padding: 0 12px 0 36px; border: 1px solid var(--border); border-radius: var(--radius-md); font-family: inherit; font-size: 14px; color: var(--fg); background: var(--bg-muted); outline: none; transition: border-color 150ms, background 150ms; }
+    .sh-search input:focus { border-color: var(--action-blue); background: #fff; }
+    .sh-search input::placeholder { color: var(--fg-faint); }
+    .sh-search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--fg-muted); font-size: 18px; pointer-events: none; }
+    .sh-btn-quick { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; font-size: 14px; font-weight: 600; color: var(--fg-strong); cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: border-color 150ms; }
+    .sh-btn-quick:hover { border-color: var(--border-strong); }
+    .dot-grid { display: grid; grid-template-columns: repeat(3, 3px); grid-template-rows: repeat(3, 3px); gap: 2px; }
+    .dot-grid span { width: 3px; height: 3px; background: currentColor; border-radius: 1px; }
+    .sh-header-nav { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .sh-header-nav-inner { max-width: var(--container-max); margin: 0 auto; padding: 0 24px; display: flex; align-items: center; }
+    .sh-nav-item { display: inline-flex; align-items: center; gap: 6px; padding: 12px 36px; font-size: 14px; font-weight: 500; color: var(--fg-strong); white-space: nowrap; transition: background 150ms, color 150ms; border-bottom: 2px solid transparent; }
+    .sh-nav-item:hover { background: var(--bg-soft); color: var(--action-blue); }
+    .sh-nav-item .material-symbols-outlined { font-size: 16px; color: var(--fg-faint); }
+
+    /* BREADCRUMB */
+    .sh-breadcrumb { background: #fff; }
+    .sh-breadcrumb-inner { max-width: var(--container-max); margin: 0 auto; padding: 10px 24px; display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; line-height: 20px; color: #4B5563; }
+    .sh-crumb-home { display: inline-flex; align-items: center; color: var(--fg); transition: color 150ms; }
+    .sh-crumb-home:hover { color: var(--action-blue); }
+    .sh-crumb-link { color: #4B5563; font-weight: 500; transition: color 150ms; }
+    .sh-crumb-link:hover { color: #9CA3AF; }
+    .sh-crumb-sep { color: var(--fg-faint); }
+    .sh-crumb-current { color: var(--fg-strong); font-weight: 500; }
+
+    /* BANNER */
+    .sh-banner { background: var(--uom-navy); padding: 48px 0; }
+    .sh-banner .container { display: flex; flex-direction: column; justify-content: center; min-height: 120px; }
+    .sh-banner h1 { font-size: 30px; font-weight: 800; color: #fff; margin: 0; line-height: 1.2; }
+    @media (min-width: 768px) { .sh-banner h1 { font-size: 36px; } }
+
+    /* QUICK-ACTION BUTTONS */
+    .sh-quick-actions { background: #fff; padding: 32px 0; display: none; }
+    .sh-quick-actions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    @media (max-width: 640px) { .sh-quick-actions-grid { grid-template-columns: 1fr; } }
+    .sh-quick-action-btn { display: flex; gap: 24px; align-items: center; padding: 24px; background: #fff; border-radius: 8px; border: 2px solid transparent; box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06); cursor: pointer; text-decoration: none; transition: box-shadow 150ms, border-color 150ms; }
+    .sh-quick-action-btn:hover { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); }
+    .sh-quick-action-btn:active { border-color: var(--action-blue); }
+    .sh-quick-action-icon { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 8px; background: var(--uom-navy); color: #fff; flex-shrink: 0; }
+    .sh-quick-action-icon .material-symbols-outlined { font-size: 24px; }
+    .sh-quick-action-text { text-align: left; }
+    .sh-quick-action-label { font-size: 14px; font-weight: 600; text-transform: uppercase; color: var(--fg-strong); line-height: 1.4; }
+    .sh-quick-action-desc { font-size: 14px; font-weight: 500; color: var(--fg-muted); margin-top: 6px; line-height: 1.4; }
+
+    /* BODY */
+    .sh-body { max-width: var(--container-max); margin: 0 auto; padding: 56px 24px 64px; }
+
+    /* HORIZONTAL TABS */
+    .sh-horizontal-tabs { border-bottom: 1px solid var(--border); margin-bottom: 32px; }
+    .sh-horizontal-tabs nav { display: flex; gap: 32px; }
+    .sh-tab-link { display: inline-block; padding: 12px 4px; font-size: 14px; font-weight: 500; color: var(--fg-muted); border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; transition: color 150ms, border-color 150ms; }
+    .sh-tab-link:hover { color: var(--fg-strong); border-bottom-color: var(--border-strong); }
+    .sh-tab-link.active { color: var(--action-blue); border-bottom-color: var(--action-blue); font-weight: 600; }
+
+    /* TWO-COLUMN BODY LAYOUT */
+    .sh-body-flex { display: flex; gap: 48px; align-items: flex-start; }
+    .sh-sidenav { width: 216px; flex-shrink: 0; position: sticky; top: 96px; }
+    .sh-sidenav-link { display: block; padding: 9px 14px; font-size: 14px; font-weight: 500; color: var(--fg-muted); border-radius: var(--radius-md); border: 1.5px solid transparent; text-decoration: none; transition: background 150ms, color 150ms, border-color 150ms; margin-bottom: 2px; }
+    .sh-sidenav-link:hover { background: var(--bg-muted); color: var(--fg-strong); }
+    .sh-sidenav-link.active { background: #EFF6FF; color: #000F46; border-color: #BFDBFE; font-weight: 600; }
+    .sh-body-main { flex: 1; min-width: 0; }
+    @media (max-width: 768px) {
+      .sh-body-flex { flex-direction: column; gap: 0; }
+      .sh-sidenav { width: 100%; position: static; display: flex; flex-direction: row; flex-wrap: wrap; gap: 8px; padding-bottom: 24px; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
+      .sh-sidenav-link { margin-bottom: 0; border: 1.5px solid var(--border); background: var(--bg-muted); }
+      .sh-sidenav-link.active { background: #EFF6FF; color: #000F46; border-color: #BFDBFE; }
+    }
+
+    /* PAGE CONTENT */
+    .sh-tab-intro { margin-bottom: 32px; }
+    .sh-tab-intro h2 { font-size: 22px; font-weight: 700; color: var(--fg-strong); margin: 0 0 12px; }
+    .sh-tab-intro p { font-size: 15px; color: var(--fg-muted); line-height: 1.6; margin: 0 0 16px; max-width: 640px; }
+
+    /* Resource grid */
+    .sh-resource-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    @media (max-width: 640px) { .sh-resource-grid { grid-template-columns: 1fr; } }
+
+    /* UPDATE NOTICE */
+    .sh-update-notice { padding: 72px 0 0; background: #fff; }
+    .sh-update-notice em { font-size: 14px; font-style: italic; color: var(--fg); }
+    .sh-update-notice a { color: var(--action-blue); text-decoration: underline; text-underline-offset: 2px; }
+
+    /* FEEDBACK CARD */
+    .sh-feedback-wrapper { background: #fff; padding: 24px 0 40px; }
+    .sh-feedback-card { width: 100%; background: #fff; border-radius: 6px; padding: 14px 20px; box-shadow: 0 1px 3px rgba(0,0,0,.1), 0 1px 2px rgba(0,0,0,.06); }
+    .sh-feedback-row { display: flex; align-items: center; gap: 16px; }
+    .sh-feedback-icon-wrap { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: var(--uom-navy); border-radius: 6px; flex-shrink: 0; color: #fff; }
+    .sh-feedback-icon-wrap .material-symbols-outlined { font-size: 20px; }
+    .sh-feedback-body-text { flex: 1; font-size: 14px; color: var(--fg); line-height: 1.5; }
+    .sh-feedback-action { display: inline-flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 600; color: var(--action-blue); text-decoration: none; white-space: nowrap; flex-shrink: 0; }
+    .sh-feedback-action:hover { color: #1e40af; }
+    .sh-feedback-action .material-symbols-outlined { font-size: 16px; }
+
+    /* CTA BAND */
+    .sh-cta-band { background: var(--bg-soft); padding: 48px 0; text-align: center; }
+    .sh-cta-band h2 { font-size: 20px; font-weight: 700; color: var(--fg-strong); margin: 0 0 10px; }
+    .sh-cta-band p { font-size: 15px; color: var(--fg-muted); margin: 0 0 24px; max-width: 520px; margin-left: auto; margin-right: auto; }
+    .sh-btn-cta { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: var(--uom-navy); color: #fff; font-size: 14px; font-weight: 600; border-radius: var(--radius-md); border: none; cursor: pointer; text-decoration: none; transition: background 150ms; }
+    .sh-btn-cta:hover { background: var(--uom-navy-hover); }
+
+    /* FOOTER */
+    .sh-footer { background: var(--uom-navy); color: #fff; }
+    .sh-footer-inner { max-width: var(--container-max); margin: 0 auto; padding: 48px 24px 24px; display: flex; flex-direction: column; gap: 32px; }
+    .sh-footer-top { display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: start; }
+    @media (max-width: 768px) { .sh-footer-top { grid-template-columns: 1fr; } }
+    .sh-ack { font-size: 16px; font-weight: 700; line-height: 1.5; max-width: 480px; }
+    .sh-footer-links { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px 32px; }
+    @media (max-width: 768px) { .sh-footer-links { grid-template-columns: repeat(2, 1fr); } }
+    .sh-footer-links a { font-size: 14px; color: #fff; text-decoration: none; }
+    .sh-footer-links a:hover { text-decoration: underline; }
+    .sh-footer-support { font-size: 13px; color: rgba(255,255,255,0.8); display: flex; gap: 24px; flex-wrap: wrap; }
+    .sh-footer-support a { color: #fff; text-decoration: none; }
+    .sh-footer-support a:hover { text-decoration: underline; }
+    .sh-footer-compliance { border-top: 1px solid rgba(255,255,255,0.15); padding-top: 16px; font-size: 12px; color: rgba(255,255,255,0.6); }
+  </style>
+</head>
+<body>
+
+  <header class="sh-header">
+    <div class="sh-header-brand">
+      <a href="#" class="sh-brand" aria-label="Staff Hub home">
+        <img src="UoM_Logo_Vert_Housed_RGB.png" alt="University of Melbourne" class="sh-brand-logo">
+        <span class="sh-wordmark">Staff Hub</span>
+      </a>
+      <div class="sh-search" role="search">
+        <span class="material-symbols-outlined sh-search-icon" aria-hidden="true">search</span>
+        <input type="search" placeholder="Search Staff Hub" aria-label="Search Staff Hub">
+      </div>
+      <button class="sh-btn-quick" type="button">
+        Quick Access
+        <span class="dot-grid" aria-hidden="true">
+          <span></span><span></span><span></span>
+          <span></span><span></span><span></span>
+          <span></span><span></span><span></span>
+        </span>
+      </button>
+    </div>
+    <nav class="sh-header-nav" aria-label="Primary navigation">
+      <div class="sh-header-nav-inner">
+        <a href="#" class="sh-nav-item">News &amp; events <span class="material-symbols-outlined" aria-hidden="true">expand_more</span></a>
+        <a href="#" class="sh-nav-item">Services &amp; support <span class="material-symbols-outlined" aria-hidden="true">expand_more</span></a>
+        <a href="#" class="sh-nav-item">About UoM <span class="material-symbols-outlined" aria-hidden="true">expand_more</span></a>
+        <a href="#" class="sh-nav-item">Education &amp; research <span class="material-symbols-outlined" aria-hidden="true">expand_more</span></a>
+      </div>
+    </nav>
+  </header>
+
+  <nav class="sh-breadcrumb" aria-label="Breadcrumb">
+    <div class="sh-breadcrumb-inner">
+      <a href="#" class="sh-crumb-home" aria-label="Staff Hub home">
+        <span class="material-symbols-outlined" style="font-size: 18px;" aria-hidden="true">home</span>
+      </a>
+      <span class="sh-crumb-sep" aria-hidden="true">/</span>
+      <a href="#" class="sh-crumb-link">Faculty of Science</a>
+      <span class="sh-crumb-sep" aria-hidden="true">/</span>
+      <a href="Home page location site/Operations and infrastructure _ Faculty of Science.html" class="sh-crumb-link">Operations and infrastructure</a>
+      <span class="sh-crumb-sep" aria-hidden="true">/</span>
+      <a href="service-catalogue-v4.html" class="sh-crumb-link">Teaching Lab Operations</a>
+      <span class="sh-crumb-sep" aria-hidden="true">/</span>
+      <span class="sh-crumb-current">Need something else</span>
+    </div>
+  </nav>
+
+  <section class="sh-banner" aria-labelledby="page-title">
+    <div class="container">
+      <h1 id="page-title">Teaching Lab Operations Service Catalogue</h1>
+      <p style="font-size: 16px; font-weight: 400; color: rgba(255,255,255,0.88); margin: 14px 0 0; line-height: 1.6; max-width: 640px;">Find information on laboratory setup, equipment, consumables, and safety services provided by the Teaching Lab Operations team.</p>
+    </div>
+  </section>
+
+  <section class="sh-quick-actions">
+    <div class="container">
+      <div class="sh-quick-actions-grid">
+        <a href="#" class="sh-quick-action-btn">
+          <div class="sh-quick-action-icon">
+            <span class="material-symbols-outlined" aria-hidden="true">edit_note</span>
+          </div>
+          <div class="sh-quick-action-text">
+            <div class="sh-quick-action-label">Submit a Service Request</div>
+            <div class="sh-quick-action-desc">Log a new request with the Teaching Lab Operations team.</div>
+          </div>
+        </a>
+        <a href="#" class="sh-quick-action-btn">
+          <div class="sh-quick-action-icon">
+            <span class="material-symbols-outlined" aria-hidden="true">inventory_2</span>
+          </div>
+          <div class="sh-quick-action-text">
+            <div class="sh-quick-action-label">Existing Resources</div>
+            <div class="sh-quick-action-desc">Browse guides, templates, and tools you can use right now.</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <main id="main-content">
+    <div class="sh-body">
+
+      <div class="sh-horizontal-tabs">
+        <nav aria-label="Service categories">
+          <a href="service-catalogue-v4.html" class="sh-tab-link active">Teaching Lab operations</a>
+          <a href="https://staff.unimelb.edu.au/science/operations-and-infrastructure/service-catalogue" class="sh-tab-link" target="_blank" rel="noopener">Research Lab operation</a>
+          <a href="shared-services.html" class="sh-tab-link">Shared services</a>
+        </nav>
+      </div>
+
+      <div class="sh-body-flex">
+
+        <nav class="sh-sidenav" aria-label="Page sections">
+          <a href="service-catalogue-v4.html" class="sh-sidenav-link">Core Services</a>
+          <a href="need-something.html" class="sh-sidenav-link active">Need something else</a>
+          <a href="how-we-work.html" class="sh-sidenav-link">How we work</a>
+          <a href="who-we-are.html" class="sh-sidenav-link">Who we are</a>
+        </nav>
+
+        <div class="sh-body-main">
+          <div class="sh-tab-intro">
+            <h2>Need something else</h2>
+            <p>Check our resource library before you submit your request. This is your starting point for information, guides, forms and other resources available from the teaching lab support team.</p>
+          </div>
+
+          <div class="sh-resource-grid">
+
+            <a href="#" class="sh-quick-action-btn">
+              <div class="sh-quick-action-icon">
+                <span class="material-symbols-outlined" aria-hidden="true">download</span>
+              </div>
+              <div class="sh-quick-action-text">
+                <div class="sh-quick-action-label">Downloadable Documents</div>
+                <div class="sh-quick-action-desc">An alternative format with the same information as this online guide.</div>
+              </div>
+            </a>
+
+            <a href="#" class="sh-quick-action-btn">
+              <div class="sh-quick-action-icon">
+                <span class="material-symbols-outlined" aria-hidden="true">badge</span>
+              </div>
+              <div class="sh-quick-action-text">
+                <div class="sh-quick-action-label">Getting Started</div>
+                <div class="sh-quick-action-desc">For new and sessional teaching staff finding their way around.</div>
+              </div>
+            </a>
+
+            <a href="#" class="sh-quick-action-btn">
+              <div class="sh-quick-action-icon">
+                <span class="material-symbols-outlined" aria-hidden="true">desktop_windows</span>
+              </div>
+              <div class="sh-quick-action-text">
+                <div class="sh-quick-action-label">Systems and Tools</div>
+                <div class="sh-quick-action-desc">Common technology for teaching and administration.</div>
+              </div>
+            </a>
+
+            <a href="#" class="sh-quick-action-btn">
+              <div class="sh-quick-action-icon">
+                <span class="material-symbols-outlined" aria-hidden="true">policy</span>
+              </div>
+              <div class="sh-quick-action-text">
+                <div class="sh-quick-action-label">Policies and Guidelines</div>
+                <div class="sh-quick-action-desc">Documented expectations of and commitments to students.</div>
+              </div>
+            </a>
+
+            <a href="#" class="sh-quick-action-btn">
+              <div class="sh-quick-action-icon">
+                <span class="material-symbols-outlined" aria-hidden="true">person_pin</span>
+              </div>
+              <div class="sh-quick-action-text">
+                <div class="sh-quick-action-label">Find your local contact</div>
+                <div class="sh-quick-action-desc">Know who to contact from your teaching lab team.</div>
+              </div>
+            </a>
+
+            <a href="#" class="sh-quick-action-btn">
+              <div class="sh-quick-action-icon">
+                <span class="material-symbols-outlined" aria-hidden="true">help</span>
+              </div>
+              <div class="sh-quick-action-text">
+                <div class="sh-quick-action-label">FAQ's</div>
+                <div class="sh-quick-action-desc">Quick answers to the things people ask most.</div>
+              </div>
+            </a>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="sh-update-notice">
+      <div class="container">
+        <p><em>We recently updated this page – <a href="#">read a summary of the changes</a>.</em></p>
+      </div>
+    </div>
+
+    <div class="sh-feedback-wrapper">
+      <div class="container">
+        <div class="sh-feedback-card">
+          <div class="sh-feedback-row">
+            <div class="sh-feedback-icon-wrap" aria-hidden="true">
+              <span class="material-symbols-outlined">chat</span>
+            </div>
+            <p class="sh-feedback-body-text">If you can spare a minute, please tell us what you think about the updated Teaching Service Catalogue</p>
+            <a href="#" class="sh-feedback-action">
+              Share your feedback
+              <span class="material-symbols-outlined" aria-hidden="true">expand_less</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="sh-cta-band" aria-labelledby="cta-title">
+      <div class="container">
+        <h2 id="cta-title">Need something from the lab team?</h2>
+        <p>Submit a service request and our team will respond within the timeframes outlined in our service levels.</p>
+        <a href="#" class="sh-btn-cta">
+          <span class="material-symbols-outlined" style="font-size: 18px;" aria-hidden="true">send</span>
+          Submit a Service Request
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="sh-footer">
+    <div class="sh-footer-inner">
+      <div class="sh-footer-top">
+        <p class="sh-ack">We acknowledge and pay respect to the Traditional Owners of the lands upon which our campuses are situated.</p>
+      </div>
+      <nav class="sh-footer-links" aria-label="Footer navigation">
+        <a href="#">Staff services →</a>
+        <a href="#">Our structure →</a>
+        <a href="#">Safety and wellbeing →</a>
+        <a href="#">IT support →</a>
+        <a href="#">Career opportunities →</a>
+        <a href="#">Chat support →</a>
+        <a href="#">Phone support →</a>
+        <a href="#">Campus maps →</a>
+      </nav>
+      <div class="sh-footer-support">
+        <a href="#">Live chat</a>
+        <span>Phone: +61 3 8344 6789</span>
+      </div>
+      <p class="sh-footer-compliance">CRICOS Provider Code: 00116K &middot; ABN: 84 002 705 224 &middot; Terms of use &middot; Accessibility</p>
+    </div>
+  </footer>
+
+</body>
+</html>
